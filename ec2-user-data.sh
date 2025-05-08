@@ -4,11 +4,12 @@
 apt-get update -y
 apt-get upgrade -y
 
-# Instalação de pacotes necessários
+# Instalação de pacotes
 apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
+    aws-cli \
     lsb-release \
     nfs-common
 
@@ -23,23 +24,25 @@ echo \
 apt-get update -y
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Inicia e habilita o Docker
+
 systemctl start docker
 systemctl enable docker
 
-# Adiciona o usuário ubuntu ao grupo docker
+
 usermod -aG docker ubuntu
 
 # Montagem do EFS
 mkdir -p /mnt/efs
 
-# Substitua fs-XXXX e região pela sua configuração
+
 EFS_ID=fs-XXXXXXXX
-REGIAO=sa-east-1
+REGIAO= XX-XXXX-XX
 mount -t nfs4 -o nfsvers=4.1 ${EFS_ID}.efs.${REGIAO}.amazonaws.com:/ /mnt/efs
 
 # Entrada no fstab para montagem automática
 echo "${EFS_ID}.efs.${REGIAO}.amazonaws.com:/ /mnt/efs nfs4 defaults,_netdev 0 0" >> /etc/fstab
+
+chown -R 33:33 /mnt/efs
 
 # Criação do arquivo docker-compose.yml com volume no EFS
 cat <<EOF > /home/ubuntu/compose.yml
@@ -48,29 +51,29 @@ services:
     image: wordpress
     restart: always
     ports:
-      - 8080:80
+      - 80:80
     environment:
-      WORDPRESS_DB_HOST: database-1.ci160cos42vm.us-east-1.rds.amazonaws.com
-      WORDPRESS_DB_USER: admin
-      WORDPRESS_DB_PASSWORD: 8BhOGK0C5Q42vb1wiYdb
-      WORDPRESS_DB_NAME: MyDBWP
+      WORDPRESS_DB_HOST: 
+      WORDPRESS_DB_USER: 
+      WORDPRESS_DB_PASSWORD: 
+      WORDPRESS_DB_NAME: 
     volumes:
-      - type: bind
-        source: /mnt/efs
-        target: /var/www/html
+      - /mnt/efs: /var/www/html
 
   db:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: MyDBWP
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: 8BhOGK0C5Q42vb1wiYdb
-      MYSQL_ROOT_PASSWORD: 8BhOGK0C5Q42vb1wiYdb
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 
     volumes:
       - db:/var/lib/mysql
+      
 
 volumes:
+  worldpress_data:
   db:
 EOF
 
