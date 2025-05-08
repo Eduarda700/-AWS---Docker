@@ -130,8 +130,42 @@ em instance type foi escolhido T2.micro e uma selecionado uma key pair, em netwo
 
 5 - criar o Load Balancer 
 
-pesquise por load balancers e em seguida clique em create load balancers
+pesquise por load balancers e em seguida clique em create load balancers e em clique em create em classical load balancer - previous generation. 
+
+![Captura de Tela (72)](https://github.com/user-attachments/assets/db634b6b-e5e9-4161-b674-67a117559a45)
+![Captura de Tela (73)](https://github.com/user-attachments/assets/6e8415b7-8287-4983-a940-f53efcf23a65)
+
+escolha um nome para o loadbalancer, selecione internet facing em scheme e em network mapping esl=colha a vpc criada anteriormente, selecione as zonas e as subnetes publicas 
+![Captura de Tela (74)](https://github.com/user-attachments/assets/54f744be-8aa1-4675-a9a0-6d77664c6a77)
+![Captura de Tela (74)](https://github.com/user-attachments/assets/8baae3bc-afee-4fb9-ad21-b715593f98e2)
+![Captura de Tela (75)](https://github.com/user-attachments/assets/77d4350e-693c-4f5b-b65c-98a44403d903)
+
+em seguida selecione o security group LoadBalancerSecurity group (ou nome que escolheu), e deixe listeners e routing como padrão
+![Captura de Tela (76)](https://github.com/user-attachments/assets/e4fedda6-1bbd-4d38-878a-b17a1a06aeb6)
+
+em health checks o ping para o caminho /wp-admin/install.php, interval em 10 segundos, 5 segundos para response time out, 2 em unhealth thresh hold e por ultimo 3 em health thresh hold.
+![Captura de Tela (77)](https://github.com/user-attachments/assets/0f21e5f4-a8fd-4d95-b56a-2f880f79ebbf)
+
+e o resto deixe como padrão e clique em create load balancer
+![Captura de Tela (79)](https://github.com/user-attachments/assets/cfbfaeb8-c28d-4c83-83ab-78aa8f53e982)
 
 
+6 - criar auto scaling 
+pesquise por auto scaling group e clique em create auto scaling group
+![Captura de Tela (82)](https://github.com/user-attachments/assets/61cf81a3-f65a-4c7e-b98d-0ffb3a8aeefc)
 
 
+na primeira etapa escolha um nome para o grupo e o template anteriormente criado e clique em next.
+![Captura de Tela (83)](https://github.com/user-attachments/assets/e2be92c7-5321-42ff-b63b-fc9eacad11a7)
+
+no proximo passo apenas configure a network, ecolha a vpc criada anteriormente e as zonas com as subnets privadas, selecione balanced best efffort e clique para next. 
+![Captura de Tela (87)](https://github.com/user-attachments/assets/b79de4dc-782b-40e6-b982-801cab9c7e0e)
+
+em seguida configure para conectar ao load baalcer criado anteriormente, no vpc lattic service e selecione a opção recomendada em health checks, depois clique em next.
+![Captura de Tela (88)](https://github.com/user-attachments/assets/83d17417-d296-46fe-9905-8bcbc00e6f4d)
+![Captura de Tela (89)](https://github.com/user-attachments/assets/f1b24806-f76a-4364-98e6-23c7f2c9431f)
+
+em seguida configure em group size a capacidade para 2, em scaling e minimo desejado para 2 e maximo para 2, selecione no scaling policies.
+![Captura de Tela (91)](https://github.com/user-attachments/assets/d322ba40-b20a-45e6-9ef5-83888841de38)
+
+em maintainance selecione no policies, em adicional settings selecione a segunda opção e em next, pule a aetapa de notificções e em next novamente e clique em create auto scaling group.
