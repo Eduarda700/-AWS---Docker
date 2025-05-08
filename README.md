@@ -1,6 +1,9 @@
 # Atividade - DevSecOps - Docker
 
-projeto com a topologia em mente
+projeto com a seguinte topologia em mente
+
+![Captura de Tela (2)](https://github.com/user-attachments/assets/843bb495-9ef0-4588-9669-3bd3a42f68e3)
+
 
 ## 1 - Criação da Virtual Private Cloud (VPC)
 
@@ -211,6 +214,8 @@ Configure o tamanho:
 - Máximo: 2  
 - Scaling Policy: None
 
+
 ![Tamanho do Grupo](https://github.com/user-attachments/assets/d322ba40-b20a-45e6-9ef5-83888841de38)
+![Captura de Tela (92)](https://github.com/user-attachments/assets/3cb6b0b7-645b-4cfc-922b-3491778ba88b)
 
 Finalize a criação ignorando notificações e clicando em **Create Auto Scaling Group**.
